@@ -1,80 +1,50 @@
 import React, { Component } from 'react';
 import './App.css';
+import Counter from "./Counter"
+
 class App extends Component {
 
-constructor(props) {
-  console.log('constructor')
-	super(props);
-	
-	this.state = {
-    counter:0,
-    delete: false,
-	}
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      mount:true
+    }
 
-	this.increment = () => this.setState({counter:this.state.counter + 1})
-  this.decrement = () => this.setState({counter:this.state.counter - 1})
-  this.delete = () => this.setState({delete: true })
-}
-
-// static getDerivedStateFromProps(props, state){
-//   return state
-// }
-
-componentDidMount(){
-  console.log('component did mount')
-  console.log("-----xx-----")
-  console.log("-----xx-----")
-}
+    this.mountCounter = this.mountCounter.bind(this)
+    this.unmountCounter = this.unmountCounter.bind(this)
+  }
 
 
-getSnapshotBeforeUpdate(prevProps, prevState){
-  return console.log("Previous State before updating:") +
-   console.log(prevState)
-}
+  mountCounter(){
+    this.setState({mount: true})
+  }
+  unmountCounter(){
+    this.setState({mount: false})
+  }
+    
+
+  // static getDerivedStateFromProps(props, state){
+  //   return state
+  // }
 
 
 
-shouldComponentUpdate(nextProps, nextState){
-  if(nextState !== this.state){
-    console.log("state changed, need to re-render")
-    return true
-  }else{
-  console.log("state did'nt changed,no need to re-render")
-  return false
-}
-}
-
-
-
-componentDidUpdate(prevProps, prevState) {
-  if (prevState !== this.state) {
-    console.log("----xx----")
-    console.log("counter state updated")
-    console.log("----xx----")
-    console.log("----xx----")
+  render() {
+    return (
+    <div className="App">
+              <div>
+              <button className ="buttons" onClick={this.mountCounter} disabled={this.state.mount}>Mount</button>
+              <button className ="buttons" onClick={this.unmountCounter} disabled={!this.state.mount}>Unmount</button>
+              </div>
+              Counter:
+              <div className="counter">
+                  {this.state.mount ? <Counter /> : null  }
+              </div>
+              </div>
+    );
   }
 }
 
-// componentWillUnmount() {
-//   if(this.state.delete === true )
-//   return console.log('Unmounted counter successfully');
-// }
-
-render() {
-  console.log('render happens')
-	return (
-	<div className="App">
-          <div>
-            <button className ="buttons" onClick={this.delete}>Delete the counter component</button>
-            <button className ="buttons" onClick={this.increment}>Increment</button>
-            <button className ="buttons"  onClick={this.decrement}>Decrement</button>
-          </div>
-          <div className="counter">
-              Counter: {this.state.delete ? null : this.state.counter}
-          </div>
-	</div>
-	);
-}
-}
-
 export default App;
+
