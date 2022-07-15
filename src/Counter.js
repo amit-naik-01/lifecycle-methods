@@ -29,6 +29,7 @@ export default class Counter extends React.Component{
 
     shouldComponentUpdate(nextProps, nextState){
     if(nextState !== this.state){
+      alert(`previous State:` + this.state.counter + ` new State: ` + nextState.counter) 
       console.log("state changed, need to re-render")
       return true
     }
@@ -36,7 +37,8 @@ export default class Counter extends React.Component{
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState){
-        return console.log("Previous State before updating:") + console.log(prevState)
+        console.log(`Previous State before updating:` + prevState.counter)
+        return null
     }
 
 
@@ -48,10 +50,6 @@ export default class Counter extends React.Component{
     }
     
    
-    componentWillUnmount(){
-        if(!this.state.mount)
-            console.log("counter component unmounted")
-    }
 
 
     render(){
@@ -59,7 +57,6 @@ export default class Counter extends React.Component{
         return <div>
             <button className ="buttons" onClick={this.increment}>Increment</button>
             <button className ="buttons" onClick={this.decrement}>Decrement</button>
-            
             <div className="counter">
                 Count: {this.state.counter}
             </div>
